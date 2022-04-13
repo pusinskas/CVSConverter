@@ -6,9 +6,9 @@ namespace CSVConverter.Business.Adapter
 {
     public class CSVToXmlAdapter : FileAdapterBase
     {
-        public override string Convert(string csvContent)
+        public override string Convert(string content)
         {
-            string[] csvContentLines = csvContent.Split(
+            string[] csvContentLines = content.Split(
                                 new[] { Environment.NewLine },
                                 StringSplitOptions.None
                             );
@@ -43,6 +43,7 @@ namespace CSVConverter.Business.Adapter
             }
 
             var xDocument = new XDocument();
+            var xPrincipalRoot = new XElement("root");
 
             foreach (var line in csvLines)
             {
@@ -53,15 +54,17 @@ namespace CSVConverter.Business.Adapter
                     throw new InvalidOperationException($"The columns in CSV line '{line}' does not match the header '{header}'");
                 }
 
-                xDocument.Add(GetXmlElement(headerParts, csvParts));
+                xPrincipalRoot.Add(GetXmlElement(headerParts, csvParts));
             }
+
+            xDocument.Add(xPrincipalRoot);
 
             return xDocument;
         }
 
         private static XElement GetXmlElement(string[] headerParts, string[] rowParts, char objectDelimiter = '_')
         {
-            var xElementPrincipal = new XElement("Principal");
+            var xElementRoot = new XElement("element");
 
             for (var i = 0; i < headerParts.Count(); i++)
             {
@@ -92,16 +95,16 @@ namespace CSVConverter.Business.Adapter
                     }
 
                     /*Adding the next object to principal object*/
-                    xElementPrincipal.Add(new XElement(nextObjectName, elementNextObject));
+                    xElementRoot.Add(new XElement(nextObjectName, elementNextObject));
 
                 }
                 else
                 {
-                    xElementPrincipal.Add(new XElement(headerParts[i], rowParts[i]));
+                    xElementRoot.Add(new XElement(headerParts[i], rowParts[i]));
                 }
             }
 
-           return xElementPrincipal;
+           return xElementRoot;
         }
 
 

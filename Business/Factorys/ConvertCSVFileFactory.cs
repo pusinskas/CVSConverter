@@ -6,7 +6,7 @@ namespace CSVConverter.Business.Factorys
 {
     public class ConvertCSVFileFactory
     {
-        public ICSVToFIleConvert getConverter(eFileType from, eFileType to)
+        public ICSVConverter getConverter(eFileType from, eFileType to)
         {
             switch (from)
             {
@@ -17,10 +17,18 @@ namespace CSVConverter.Business.Factorys
                         case eFileType.JSON : return new CSVToJsonAdapter();
                         case eFileType.XML : return new CSVToXmlAdapter();
 
-                        default: throw new System.NotSupportedException("File to " + to.ToString() + "is not supported") ;
+                        default: throw new System.NotSupportedException("File from CSV to " + to.ToString() + "is not supported") ;
                     }
 
-                default: throw new System.NotSupportedException("File from must to be CSV");
+                /*case eFileType.JSON:
+                    switch(to)
+                    {
+                        case eFileType.CSV : return new JsonToCSVAdapter();
+
+                        default: throw new System.NotSupportedException("File from JSON to " + to.ToString() + "is not supported") ;
+                    }
+                */
+                default: throw new System.NotSupportedException("File from" + from.ToString() + "is not supported");
             }
 
         }

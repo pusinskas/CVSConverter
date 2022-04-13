@@ -3,9 +3,9 @@ using CSVConverter.Business.Interfaces;
 
 namespace CSVConverter.Business.Adapter
 {
-    public abstract class FileAdapterBase : ICSVToFIleConvert
+    public abstract class FileAdapterBase : ICSVConverter
     {
-        public abstract string Convert(string csvContent);
+        public abstract string Convert(string content);
         
     }
 

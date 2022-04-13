@@ -6,9 +6,9 @@ namespace CSVConverter.Business.Adapter
 {
     public class CSVToJsonAdapter : FileAdapterBase
     {
-        public override string Convert(string csvContent)
+        public override string Convert(string content)
         {
-            string[] csvContentLines = csvContent.Split(
+            string[] csvContentLines = content.Split(
                                 new[] { Environment.NewLine },
                                 StringSplitOptions.None
                             );
